@@ -1,0 +1,38 @@
+h1 {
+    margin-bottom: 40px;
+}
+
+.glyphicon {
+    cursor: pointer;
+}
+
+.btn-success, .btn-primary, .btn-default {
+    margin-bottom: 5px;
+}
+
+#tapeWrapper {
+    position: absolute;
+    height: 70px;
+    left: 0;
+    width: 100%;
+    top: 150px;
+    overflow: auto;
+}
+
+#tapeTable td {
+    padding: 8px 2px;
+}
+
+#tapeTable input {
+    padding: 0 6px;
+    width: 100%;
+}
+
+#tapeTable input.active {
+    background-color: red;
+}
+
+#beginAndEndStates {
+    margin-top: 80px;
+    margin-bottom: 10px;
+}

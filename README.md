@@ -1,2 +1,2 @@
 # TuringMachine
-Turing machine emulator
+Turing machine simulator

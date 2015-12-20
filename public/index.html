@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Turing machine simulator</title>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="text-center">Turing machine simulator</h1>
+    <div id="info"></div>
+</div>
+
+<div id="tapeWrapper"></div>
+
+<script type="text/template" id="infoTemplate">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="nextCommand">Next command</label>
+            <input id="nextCommand" class="form-control" value="<%= nextCommand %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="currentState">Current state</label>
+            <% if (currentState === '') { %>
+                <input id="currentState" class="form-control" value="<%= beginState %>" readonly>
+            <% } else { %>
+                <input id="currentState" class="form-control" value="<%= currentState%>" readonly>
+            <% } %>
+        </div>
+    </form>
+</script>
+
+<script type="text/template" id="tape">
+    <tbody>
+            <tr>
+                <% _.each(tape, function (cell, index) { %>
+                    <% if (index === tapeActivePos) { %>
+                        <td><input value="<%= cell %>" class="form-control active"></td>
+                    <% } else { %>
+                        <td><input value="<%= cell %>" class="form-control"></td>
+                    <% } %>
+                <% }); %>
+            </tr>
+    </tbody>
+</script>
+
+<script type="text/template" id="beginAndEndState">
+    <form class="form-inline">
+        <button id="step" class="btn btn-primary">Step</button>
+        <button id="play" class="btn btn-primary">Play</button>
+        <button id="break" class="btn btn-primary">Break</button>
+        <div class="form-group">
+            <label for="beginStateInput">Begin state</label>
+            <input type="text" class="form-control" id="beginStateInput" value="<%= beginState %>">
+        </div>
+        <div class="form-group">
+            <label for="endStateInput">End state</label>
+            <input type="text" class="form-control" id="endStateInput" value="<%= endState %>">
+        </div>
+        <button class="exportTable btn btn-default">Export table</button>
+        <input class="import importTable" type="file" title="Import table"/>
+        <button class="exportTape btn btn-default">Export tape</button>
+        <input class="import importTape" type="file" title="Import tape"/>
+    </form>
+</script>
+
+<script type="text/template" id="transitionTable">
+    <thead>
+        <tr>
+            <th></th>
+            <% _.each(states, function (state) { %>
+                <th>
+                    <%= state %>
+                    <% if (state !== 'STOP') { %>
+                        <span class="removeState glyphicon glyphicon-remove"></span>
+                    <% } %>
+                </th>
+            <% }); %>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (var symbol of alphabet) { %>
+            <tr>
+                <td>
+                    <%= symbol %>
+                    <% if (symbol !== 'E') { %>
+                        <span class="removeSymbol glyphicon glyphicon-remove"></span>
+                    <% } %>
+                </td>
+                <% for (var state of states) { %>
+                    <% var value = commands[symbol + state]; %>
+                    <% if (value === undefined) { %>
+                        <% value = {symbolToPlace: '', shift: '', nextState: ''}; %>
+                    <% } %>
+                    <td>
+                        <input type="text" value="<% print(value.symbolToPlace + value.shift + value.nextState) %>" class="form-control command">
+                    </td>
+                <% } %>
+            </tr>
+        <% } %>
+        <tr>
+            <td>
+                <button class="addSymbol btn btn-success">Add symbol</button><br>
+                <button class="addState btn btn-success">Add state</button><br>
+            </td>
+            <% for (var i = 0; i < states.length; ++i) { %>
+                <td></td>
+            <% } %>
+        </tr>
+    </tbody>
+</script>
+
+<script src="js/app.bundle.js"></script>
+<script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="vendor/bootstrap-file-input/bootstrap.file-input.js"></script>
+</body>
+</html>
