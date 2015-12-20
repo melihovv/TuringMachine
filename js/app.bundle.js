@@ -608,9 +608,13 @@
 	        },
 	        'click .exportTable': function clickExportTable(e) {
 	            e.preventDefault();
-	            download('table.json', JSON.stringify(this.model, function (k, v) {
-	                return k === 'tape' || k === 'tapeActivePos' ? undefined : v;
-	            }, '\t'));
+	            download('table.json', JSON.stringify({
+	                commands: this.model.get('commands'),
+	                states: this.model.get('states'),
+	                alphabet: this.model.get('alphabet'),
+	                beginState: this.model.get('beginState'),
+	                endState: this.model.get('endState')
+	            }, null, '\t'));
 	        },
 	        'click .exportTape': function clickExportTape(e) {
 	            e.preventDefault();
