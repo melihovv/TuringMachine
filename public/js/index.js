@@ -100,7 +100,7 @@ $(() => {
         ]
     });
 
-    //// Case for infinity loop.
+    // Case for infinity loop.
     //window.t = new TuringMachine({
     //    commands: {
     //        '1Q1': {
